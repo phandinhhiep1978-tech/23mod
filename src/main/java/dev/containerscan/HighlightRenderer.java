@@ -59,7 +59,10 @@ public final class HighlightRenderer {
             BufferBuilder bb = new BufferBuilder(alloc, VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 
             for (ContainerScanner.Hit h : hits) {
-                int r = h.green() ? 40 : 255, g = h.green() ? 255 : 40, b = h.green() ? 90 : 40;
+                int r, g, b;
+                if (h.state() == ContainerScanner.State.HAS) { r = 40; g = 255; b = 90; }          // green
+                else if (h.state() == ContainerScanner.State.UNKNOWN) { r = 255; g = 200; b = 0; } // yellow
+                else { r = 255; g = 40; b = 40; }                                                  // red
                 double x0 = h.pos().getX() - cam.x - E, y0 = h.pos().getY() - cam.y - E, z0 = h.pos().getZ() - cam.z - E;
                 double x1 = x0 + 1 + 2 * E, y1 = y0 + 1 + 2 * E, z1 = z0 + 1 + 2 * E;
 

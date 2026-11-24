@@ -14,7 +14,8 @@ import java.util.Map;
 import java.util.Set;
 
 public final class ContainerScanner {
-    public record Hit(BlockPos pos, boolean green) {}
+    public enum State { HAS, EMPTY, UNKNOWN, INVALID }
+    public record Hit(BlockPos pos, State state) {}
 
     private static volatile List<Hit> hits = List.of();
     private static int ticks = 0;
@@ -52,9 +53,10 @@ public final class ContainerScanner {
                     if (kind == null || !ScanConfig.kinds.contains(kind)) continue;
 
                     Set<Item> contents = InventoryCache.contentsOf(dim, pos, be, kind);
-                    boolean green = (contents != null && contents.contains(target))
-                            || ItemValidator.accepts(kind, target, world);
-                    out.add(new Hit(pos.toImmutable(), green));
+                    State state;
+                    if (contents != null) state = contents.contains(target) ? State.HAS : State.EMPTY;
+                    else state = ItemValidator.accepts(kind, target, world) ? State.UNKNOWN : State.INVALID;
+                    out.add(new Hit(pos.toImmutable(), state));
                 }
             }
         }

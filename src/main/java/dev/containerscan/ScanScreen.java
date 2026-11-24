@@ -139,7 +139,7 @@ public class ScanScreen extends Screen {
         String label = ScanConfig.target == null ? "Target: (none)"
                 : "Target: " + ScanConfig.target.getName().getString();
         ctx.drawTextWithShadow(textRenderer, Text.literal(label), rightX, listY + MAX_RESULTS * 20 + 6, 0xFFFFFF55);
-        ctx.drawTextWithShadow(textRenderer, Text.literal("Green = has / accepts item, Red = doesn't"),
+        ctx.drawTextWithShadow(textRenderer, Text.literal("Green = has item | Yellow = not opened yet | Red = no"),
                 rightX, listY + MAX_RESULTS * 20 + 20, 0xFFAAAAAA);
     }
 
