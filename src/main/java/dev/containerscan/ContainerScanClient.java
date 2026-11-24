@@ -9,6 +9,7 @@ public class ContainerScanClient implements ClientModInitializer {
         KeybindHandler.init();
         InventoryCache.init();
         HighlightRenderer.init();
+        HopperSweep.init();
         ClientTickEvents.END_CLIENT_TICK.register(ContainerScanner::tick);
     }
 }

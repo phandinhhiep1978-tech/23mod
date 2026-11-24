@@ -1,4 +1,5 @@
 {
   "key.containerscan.open": "Open Container Scan Menu",
+  "key.containerscan.sweep": "Auto-open nearby hoppers",
   "key.category.containerscan.main": "Container Scan"
 }

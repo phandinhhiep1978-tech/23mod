@@ -8,7 +8,7 @@ import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
 public final class KeybindHandler {
-    private static final KeyBinding.Category CATEGORY =
+    public static final KeyBinding.Category CATEGORY =
             KeyBinding.Category.create(Identifier.of("containerscan", "main"));
 
     private static KeyBinding openKey;
