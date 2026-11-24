@@ -42,7 +42,7 @@ public final class HighlightRenderer {
     private HighlightRenderer() {}
 
     public static void init() {
-        WorldRenderEvents.AFTER_TRANSLUCENT.register(HighlightRenderer::render);
+        WorldRenderEvents.AFTER_ENTITIES.register(HighlightRenderer::render);
     }
 
     private static void render(WorldRenderContext ctx) {
