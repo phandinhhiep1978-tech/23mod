@@ -61,6 +61,8 @@ public class ScanScreen extends Screen {
             refreshKindButtons();
         }).dimensions(leftX + 120, allY, 115, 20).build());
 
+        addDrawableChild(new ReachSlider(leftX, allY + 24, 235, 20));
+
         // ---- master toggle ----
         addDrawableChild(ButtonWidget.builder(masterLabel(), b -> {
             ScanConfig.enabled = !ScanConfig.enabled;
@@ -154,6 +156,25 @@ public class ScanScreen extends Screen {
 
     @Override
     public boolean shouldPause() { return false; }
+
+    private static final class ReachSlider extends SliderWidget {
+        ReachSlider(int x, int y, int w, int h) {
+            super(x, y, w, h, Text.empty(), (ScanConfig.sweepReach - 4.0) / 2.0);
+            updateMessage();
+        }
+
+        private double reach() { return 4.0 + Math.round(value * 4) * 0.5; }
+
+        @Override
+        protected void updateMessage() {
+            setMessage(Text.literal("Hopper sweep reach: " + reach() + " blocks"));
+        }
+
+        @Override
+        protected void applyValue() {
+            ScanConfig.sweepReach = reach();
+        }
+    }
 
     private static final class RadiusSlider extends SliderWidget {
         RadiusSlider(int x, int y, int w, int h) {

@@ -73,7 +73,7 @@ public final class HopperSweep {
         if (mc.player == null || mc.world == null || mc.currentScreen != null) return;
         if (mc.player.isSneaking()) { msg(mc, "Stop sneaking first"); return; }
 
-        double reach = mc.player.getBlockInteractionRange() - 0.3;
+        double reach = reach(mc);
         Vec3d eye = mc.player.getEyePos();
         int r = (int) Math.ceil(reach) + 1;
         BlockPos c = mc.player.getBlockPos();
@@ -100,7 +100,7 @@ public final class HopperSweep {
         while ((pos = queue.poll()) != null) {
             if (mc.player.isSneaking()) { stop(mc, "Hopper sweep stopped (sneaking)"); return; }
             BlockEntity be = mc.world.getBlockEntity(pos);
-            double reach = mc.player.getBlockInteractionRange() - 0.3;
+            double reach = reach(mc);
             if (be == null || be.getType() != BlockEntityType.HOPPER
                     || mc.player.getEyePos().distanceTo(Vec3d.ofCenter(pos)) > reach) continue;
 
@@ -119,6 +119,11 @@ public final class HopperSweep {
         phase = Phase.IDLE;
         if (mc.currentScreen instanceof HandledScreen<?> && mc.player != null) mc.player.closeHandledScreen();
         msg(mc, message);
+    }
+
+    /** Larger of the server-synced reach and the reach set in the menu (max 6), minus a small safety margin. */
+    private static double reach(MinecraftClient mc) {
+        return Math.max(mc.player.getBlockInteractionRange(), ScanConfig.sweepReach) - 0.2;
     }
 
     private static void msg(MinecraftClient mc, String text) {
